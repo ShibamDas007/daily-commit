@@ -23,10 +23,14 @@ jobs:
           COMMITS=$(( ( RANDOM % 5 )  + 1 ))
           echo "Making $COMMITS random commits today"
 
+          # Create or reset daily.txt
+          echo "Random commits for $(date)" > daily.txt
+
           for i in $(seq 1 $COMMITS); do
             echo "Random line $i: $(date)" >> daily.txt
             git add daily.txt
             git commit -m "🔁 Random Commit $i on $(date)"
           done
 
-          git push
+      - name: Push Changes
+        run: git push
