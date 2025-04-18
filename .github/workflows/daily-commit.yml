@@ -1,23 +1,32 @@
-name: Daily Commit
+name: Random Daily Commits
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Runs every day at 6 AM UTC
-  workflow_dispatch:     # allows manual triggers
+    - cron: '0 6 * * *'  # Daily at 6 AM UTC
+  workflow_dispatch:     # Manual run option
 
 jobs:
-  commit:
+  random-commits:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Make a Daily Commit
+      - name: Set Git Config
         run: |
-          echo "Daily update: $(date)" >> daily.txt
           git config --global user.name "ShibamDas007"
           git config --global user.email "shibamdas927@gmail.com"
-          git add .
-          git commit -m "📅 Daily Commit: $(date)" || echo "No changes to commit"
+
+      - name: Generate Random Commits
+        run: |
+          COMMITS=$(( ( RANDOM % 5 )  + 1 ))
+          echo "Making $COMMITS random commits today"
+
+          for i in $(seq 1 $COMMITS); do
+            echo "Random line $i: $(date)" >> daily.txt
+            git add daily.txt
+            git commit -m "🔁 Random Commit $i on $(date)"
+          done
+
           git push
