@@ -23,13 +23,12 @@ jobs:
           # Define random commit messages
           MESSAGES=("Add some random fluff" "Fixed a bug no one noticed" "Making things happen" "Shiny new update" "Tackling the unknown")
           RANDOM_MESSAGE=${MESSAGES[$((RANDOM % ${#MESSAGES[@]}))]}
-          echo "Commit Message: $RANDOM_MESSAGE"
 
           # Define a random number of commits
-          COMMITS=$(( ( RANDOM % 5 )  + 1 ))
+          COMMITS=$(( ( RANDOM % 5 )  + 1  ))
           echo "Making $COMMITS random commits today"
 
-          # Create or reset daily.txt
+          # Reset daily.txt, ensuring it starts fresh each day
           echo "Random commits for $(date)" > daily.txt
 
           for i in $(seq 1 $COMMITS); do
@@ -37,39 +36,6 @@ jobs:
             git add daily.txt
             git commit -m "$RANDOM_MESSAGE on $(date)"
           done
-
-      - name: Add Time-Based Greeting
-        run: |
-          # Time-based greetings
-          HOUR=$(date +"%H")
-          if [ $HOUR -lt 12 ]; then
-            GREETING="Good Morning"
-          elif [ $HOUR -lt 18 ]; then
-            GREETING="Good Afternoon"
-          else
-            GREETING="Good Evening"
-          fi
-          for i in $(seq 1 $COMMITS); do
-            echo "Random line $i: $(date)" >> daily.txt
-            git add daily.txt
-            git commit -m "$GREETING! Random Commit $i on $(date)"
-          done
-
-      - name: Add Random Joke to File
-        run: |
-          # Add random jokes to a file
-          JOKES=("Why don't skeletons fight each other? They don't have the guts." "I told my computer I needed a break, now it won’t stop sending me Kit-Kats." "Why did the developer go broke? Because he used up all his cache.")
-          RANDOM_JOKE=${JOKES[$((RANDOM % ${#JOKES[@]}))]}
-          echo $RANDOM_JOKE > jokes.txt
-          git add jokes.txt
-          git commit -m "😂 Added a random joke to jokes.txt"
-
-      - name: Add Silly Output
-        run: |
-          # Output some fun console text
-          QUOTES=("Just a small commit in a big world." "Oops, did I do that?" "Git's magic at work." "Commit to be awesome!")
-          RANDOM_QUOTE=${QUOTES[$((RANDOM % ${#QUOTES[@]}))]}
-          echo "$RANDOM_QUOTE"
 
       - name: Push Changes
         run: git push
