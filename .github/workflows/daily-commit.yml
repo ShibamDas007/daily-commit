@@ -21,7 +21,7 @@ jobs:
       - name: Generate Random Commit Messages
         run: |
           # Define random commit messages
-          MESSAGES=("Add some random fluff" "Fixed a bug no one noticed" "Making things happen" "Shiny new update" "Tackling the unknown")
+          MESSAGES=("Add some random fluff ✨" "Fixed a bug no one noticed 🐛" "Making things happen 🚀" "Shiny new update 🌟" "Tackling the unknown 🔍")
           RANDOM_MESSAGE=${MESSAGES[$((RANDOM % ${#MESSAGES[@]}))]}
 
           # Define a random number of commits
